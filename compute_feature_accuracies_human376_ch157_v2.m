@@ -83,6 +83,7 @@ fprintf("Saved CDF figure to:\n  %s\n", cdfFile);
     xlabel("Classification Accuracy (%)");
     ylabel("Number of Features");
     title("LGD 376 ch157 v2: Feature Accuracy Distribution (valid features)");
+    xlim([0 100]);   
 
     % ★ ここで保存
 histFile = fullfile(dirPref.rootDir, ...
