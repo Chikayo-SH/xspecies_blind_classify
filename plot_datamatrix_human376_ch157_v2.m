@@ -57,10 +57,11 @@ function plot_datamatrix_human376_ch157_v2()
     keywords2 = string(TSinfo2.Keywords);
     awakeIdx2 = find(keywords2 == "awake");
     unconIdx2 = find(keywords2 == "unconscious");
-% 左パネルと同じ順番にする：下=awake, 上=unconscious
-orderIdx2 = [awakeIdx2; unconIdx2];
 
-TS_Norm_ord = TS_Norm(orderIdx2, valid_features);  % 60 x nValidFeat
+    % 左パネルと同じ順番にする：下=awake, 上=unconscious
+    orderIdx2 = [awakeIdx2; unconIdx2];
+    
+    TS_Norm_ord = TS_Norm(orderIdx2, valid_features);  % 60 x nValidFeat
 
     %% 3. 図を描く
     figure('Position', [100 100 1600 600]);  % 横長
@@ -80,52 +81,62 @@ TS_Norm_ord = TS_Norm(orderIdx2, valid_features);  % 60 x nValidFeat
     title("Human LGD 376 ch157, 200 ms epochs");
 
     % 並べ替え済み TS_Norm_ord (60 x nFeat)
-nTS = size(TS_Norm_ord, 1);
+    nTS = size(TS_Norm_ord, 1);
+    
+    % ローカルでの awake / unconscious の行インデックス
+    awake_rows = 1:30;       % 下側
+    uncon_rows = 31:60;      % 上側
+    
+    % uncon の平均を feature ごとに計算
+    mu_uncon = mean(TS_Norm_ord(uncon_rows, :), 1);   % 1 x nFeat
+    
+    % uncon 平均を引いた差分
+    TS_plot = TS_Norm_ord - mu_uncon;   % 60 x nFeat
+    
+    % % 対称なカラースケール用の範囲（robustに ±3SD とかでもOK）
+    % v = 3;    % ざっくり ±3 で
+    % カラースケール用に 5th / 95th percentile を計算
+    vals   = TS_plot(:);
+    cmin5  = prctile(vals, 5);   % 下位5%
+    cmax95 = prctile(vals, 95);  % 上位5%を除いた上限
 
-% ローカルでの awake / unconscious の行インデックス
-awake_rows = 1:30;       % 下側
-uncon_rows = 31:60;      % 上側
+    cabs = max(abs(cmin5), abs(cmax95));  % 絶対値の大きい方
+    subplot(1,2,2);
+    imagesc(TS_plot, [-cabs cabs]);       % 中心0で対称なカラースケール
+    
+    % --- ヒートマップ ---
+    %subplot(1,2,2);
+    % imagesc(TS_plot);
+    % imagesc(TS_plot, [cmin5 cmax95]);   % ★ ここが trimmed colorbar
 
-% uncon の平均を feature ごとに計算
-mu_uncon = mean(TS_Norm_ord(uncon_rows, :), 1);   % 1 x nFeat
-
-% uncon 平均を引いた差分
-TS_plot = TS_Norm_ord - mu_uncon;   % 60 x nFeat
-
-% 対称なカラースケール用の範囲（robustに ±3SD とかでもOK）
-v = 3;    % ざっくり ±3 で
-
-
-% --- ヒートマップ ---
-subplot(1,2,2);
-imagesc(TS_plot);
-axis tight;
-set(gca, "YDir", "normal");
-
-colormap(redblue_cmap);
-v = 3;
-clim([-v v]);
-
-cb = colorbar;
-ylabel(cb, "normalized value (awake > uncon = red)");
-
-
-ylabel("Epochs");
-xlabel("Operations");
-set(gca, "YTick", [15, 45], ...
-         "YTickLabel", ["awake", "unconscious"]);  % 下=awake, 上=unconscious
-title(sprintf("Data matrix (%d \\times features)", size(TS_plot,2)));
-    % % カラーバーラベル
-    % cb = colorbar;
-    % ylabel(cb, "normalized value (awake > uncon = red)");
-
-    %% 4. 図を保存
-    outFile = fullfile(dirPref.rootDir, ...
-        "hctsa_subtractMean_removeLineNoise","human","376", ...
-        "datamatrix_human_LGD_376_ch157_v2.png");
-    exportgraphics(gcf, outFile, "Resolution", 300);
-    fprintf("Saved datamatrix figure to:\n  %s\n", outFile);
-end
+    
+    axis tight;
+    set(gca, "YDir", "normal");
+    
+    colormap(redblue_cmap);
+    % v = 3;
+    % clim([-v v]);
+    
+    cb = colorbar;
+    ylabel(cb, "normalized value (awake > uncon = red)");
+    
+    
+    ylabel("Epochs");
+    xlabel("Operations");
+    set(gca, "YTick", [15, 45], ...
+             "YTickLabel", ["awake", "unconscious"]);  % 下=awake, 上=unconscious
+    title(sprintf("Data matrix (%d \\times features)_5–95%%trimmed", size(TS_plot,2)));
+        % % カラーバーラベル
+        % cb = colorbar;
+        % ylabel(cb, "normalized value (awake > uncon = red)");
+    
+        %% 4. 図を保存
+        outFile = fullfile(dirPref.rootDir, ...
+            "hctsa_subtractMean_removeLineNoise","human","376", ...
+            "datamatrix_human_LGD_376_ch157_v2_trimmed.png");
+        exportgraphics(gcf, outFile, "Resolution", 300);
+        fprintf("Saved datamatrix figure to:\n  %s\n", outFile);
+    end
 
 
 function cmap = redblue_cmap(m)
