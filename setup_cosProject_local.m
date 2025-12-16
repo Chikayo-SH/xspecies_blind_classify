@@ -2,7 +2,9 @@
 % ローカル環境用の dirPref を cosProject/dirPref として保存する
 
 % 1) repo の root に移動
-cd("C:\Users\chikayo\lab\hctsa_proj\00_repos\xspecies_blind_classify");
+% cd("C:\Users\chikayo\lab\hctsa_proj\00_repos\xspecies_blind_classify");
+% 修正後: rezaLocal を正史として使う
+cd("C:\Users\chikayo\lab\hctsa_proj\00_repos\xspecies_blind_classify_rezaLocal");
 
 % 2) dirPref 構造体を作る
 dirPref = struct;

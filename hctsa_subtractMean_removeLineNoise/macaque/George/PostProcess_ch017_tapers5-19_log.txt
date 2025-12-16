@@ -1,0 +1,14 @@
+2025-12-09 16:36:26 ch017 postProcess tapers[5 19]
+  orig_file: C:\Users\chikayo\lab\hctsa_proj\00_repos\xspecies_blind_classify_rezaLocal\hctsa_subtractMean_removeLineNoise\macaque\George\macaque_George_ch017_tapers5-19_hctsa.mat
+  v2_file  : C:\Users\chikayo\lab\hctsa_proj\00_repos\xspecies_blind_classify_rezaLocal\hctsa_subtractMean_removeLineNoise\macaque\George\macaque_George_ch017_tapers5-19_hctsa_v2.mat
+  elapsed  : 1.71 sec
+  MemUsedMATLAB: before = 4684.9 MB, after = 4712.4 MB (delta = 27.5 MB)
+  valid features: 5290 / 7710
+
+2025-12-10 13:58:40 ch017 postProcess tapers[5 19]
+  orig_file: C:\Users\chikayo\lab\hctsa_proj\00_repos\xspecies_blind_classify_rezaLocal\hctsa_subtractMean_removeLineNoise\macaque\George\macaque_George_ch017_tapers5-19_hctsa.mat
+  v2_file  : C:\Users\chikayo\lab\hctsa_proj\00_repos\xspecies_blind_classify_rezaLocal\hctsa_subtractMean_removeLineNoise\macaque\George\macaque_George_ch017_tapers5-19_hctsa_v2.mat
+  elapsed  : 1.97 sec
+  MemUsedMATLAB: before = 4977.6 MB, after = 4999.8 MB (delta = 22.1 MB)
+  valid features: 5542 / 7770
+
