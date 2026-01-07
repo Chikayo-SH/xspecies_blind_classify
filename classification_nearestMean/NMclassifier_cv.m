@@ -52,7 +52,8 @@ else
     parcelledEpochs_validate = parcellateEpochs(validateData, condNames, ncv);
 end
 
-parfor icv = 1:ncv
+% parfor icv = 1:ncv  %CH edited
+for icv = 1:ncv
 
     if verbose
         disp([num2str(icv) '/' num2str(ncv)]);
