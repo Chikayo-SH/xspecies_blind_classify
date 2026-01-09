@@ -149,7 +149,7 @@ title('fitted power spectrum'); ylabel('log(power)'); xlabel('Hz');
 
 % Plot cleaned data and spectrum
 f0 = [];
-[datac] = rmlinesc(tseries, params, [], [], f0);
+datac = rmlinesc(tseries, params, 0.01, f0);
 subplot(3, 3, [7 8]); % cleaned data
 plot(datac);
 subplot(3, 3, 9); hold on;
@@ -158,7 +158,7 @@ plot(freqs, log(tpower));
 
 % Plot cleaned data and spectrum
 f0 = 50;
-[datac] = rmlinesc(tseries, params, [], [], f0);
+datac = rmlinesc(tseries, params, 0.01, f0);
 subplot(3, 3, [7 8]); hold on;
 plot(datac);
 [tpower, freqs] = mtspectrumc(datac, params);
